@@ -1,0 +1,19 @@
+extends ../layouts/main.pug
+block content
+  .container
+    header
+      h1= title
+
+    div
+      table.table.table-striped
+        thead
+          tr
+            th Title
+            th Status
+        
+        tbody
+          each blog in blogs
+            tr
+              td
+                a(href=`/blogs/${blog.id}`)= blog.title
+              td= blog.status
