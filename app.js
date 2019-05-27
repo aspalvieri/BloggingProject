@@ -1,14 +1,16 @@
-const express = require('express');
+const express = require("express");
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send(`Hey 'dere world!`);
-});
+const routes = require("./routes.js");
+app.use("/", routes);
 
-app.get('/about', (req, res) => {
-  res.send(`I like long walks on the beach.`);
-});
+const path = require("path");
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+app.use("/css", express.static("assets/stylesheets"));
+app.use("/js", express.static("assets.javascripts"));
+app.use("/images", express.static("assets/images"));
 
 const port = (process.env.PORT || 4000);
 app.listen(port, () => console.log(`Listening on ${port}`));
