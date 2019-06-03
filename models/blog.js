@@ -23,12 +23,12 @@ BlogSchema.query.drafts = function() {
     return this.where({
         status: "DRAFT"
     });
-}
+};
 
 BlogSchema.query.published = function() {
     return this.where({
         status: "PUBLISHED"
     });
-}
+};
 
 module.exports = mongoose.model("Blog", BlogSchema);

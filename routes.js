@@ -3,8 +3,8 @@ const express = require('express');
 const app = express();
 
 // Importing the routes
-const pageRoutes = require('./routes/pages');
-const blogRoutes = require('./routes/blogs');
+const pageRoutes = require('./routes/pages.js');
+const blogRoutes = require('./routes/blogs.js');
 
 // Registering our pageRoutes
 app.use('/', pageRoutes);
