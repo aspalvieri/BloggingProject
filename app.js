@@ -26,6 +26,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+//Enabling flash cards
 app.use(flash());
 app.use((req, res, next) => {
   res.locals.flash = res.locals.flash || {};
@@ -41,16 +42,34 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-//Routes and paths
-const routes = require("./routes.js");
-app.use("/", routes);
-
+//View paths
 const path = require("path");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use("/css", express.static("assets/stylesheets"));
 app.use("/js", express.static("assets/javascripts"));
 app.use("/images", express.static("assets/images"));
+
+//Authentication helper
+const isAuthenticated = (req) => {
+  return req.session && req.session.userId;
+};
+
+app.use((req, res, next) => {
+  req.isAuthenticated = () => {
+    if (!isAuthenticated(req)) {
+      req.flash("error", "You are not permitted to do this action.");
+      res.redirect("/");
+    }
+  }
+
+  res.locals.isAuthenticated = isAuthenticated(req);
+  next();
+});
+
+//Routes and paths
+const routes = require("./routes.js");
+app.use("/", routes);
 
 const port = (process.env.PORT || 4000);
 app.listen(port, () => console.log(`Listening on ${port}`));
