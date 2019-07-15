@@ -42,25 +42,25 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-//View paths
-const path = require("path");
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
-app.use("/css", express.static("assets/stylesheets"));
-app.use("/js", express.static("assets/javascripts"));
-app.use("/images", express.static("assets/images"));
-
 //Authentication helper
+const jwt = require("jsonwebtoken");
 const isAuthenticated = (req) => {
-  return req.session && req.session.userId;
+  const token = req.cookies.token || req.body.token || req.query.token || req.headers["x-access-token"];
+
+  if (req.session.userId) return true;
+  if (!token) return false;
+
+  jew.verify(token, "thisisasecret", function(err, decoded) {
+    if (err) return false;
+    return true;
+  });
 };
 
 app.use((req, res, next) => {
   req.isAuthenticated = () => {
-    if (!isAuthenticated(req)) {
-      req.flash("error", "You are not permitted to do this action.");
-      res.redirect("/");
-    }
+    if (!isAuthenticated(req)) 
+      return false;
+    return true;
   }
 
   res.locals.isAuthenticated = isAuthenticated(req);
@@ -69,7 +69,12 @@ app.use((req, res, next) => {
 
 //Routes and paths
 const routes = require("./routes.js");
-app.use("/", routes);
+app.use("/api", routes);
+
+//Handles any requests that don't match the ones above
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 
 const port = (process.env.PORT || 4000);
 app.listen(port, () => console.log(`Listening on ${port}`));

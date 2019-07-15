@@ -1,10 +1,5 @@
 const Author = require("../models/author.js");
-
-exports.login = (req, res) => {
-    res.render("sessions/login", {
-        title: "Login"
-    });
-};
+const jwt = require("jsonwebtoken");
 
 exports.authenticate = (req, res) => {
     Author.findOne({
@@ -19,19 +14,18 @@ exports.authenticate = (req, res) => {
 
                 if (isMatch) {
                     req.session.userId = author.id;
-                    req.flash("success", "You are now logged in.");
-                    res.redirect("/blogs");
+                    
+                    const token = jwt.sign({payload: req.body.email}, "thisisasecret", {expires: "1h"});
+                    res.cookie("token", token, {httpOnly: true});
                 }
                 else {
-                    req.flash("error", "Your credentials don't match.");
-                    res.redirect("/login");
+                    res.json({error: "Your credentials do not match"});
                 }
             });
         })
         .catch(err => {
             console.log(`ERROR: ${err}`);
-            req.flash("error", `ERROR: ${err}`);
-            res.redirect("/login");
+            res.json(err);
         });
 };
 
