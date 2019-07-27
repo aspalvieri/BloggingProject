@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 
 exports.authenticate = (req, res) => {
     Author.findOne({
-        email: req.body.email
-    })
+            email: req.body.email
+        })
         .then(author => {
             if (!author)
                 throw new Error("Your credentials don't match.");
@@ -15,11 +15,11 @@ exports.authenticate = (req, res) => {
                 if (isMatch) {
                     req.session.userId = author.id;
                     
-                    const token = jwt.sign({payload: req.body.email}, "thisisasecret", {expires: "1h"});
-                    res.cookie("token", token, {httpOnly: true});
+                    const token = jwt.sign({payload: req.body.email}, "thisisasecret", {expiresIn: "1h"});
+                    res.cookie("token", token, {httpOnly: true}).status(201).send({success: "Authenticated successfully"});
                 }
                 else {
-                    res.json({error: "Your credentials do not match"});
+                    res.status(401).json({error: "Your credentials do not match"});
                 }
             });
         })

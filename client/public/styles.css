@@ -23,7 +23,7 @@ body,
   font-size: 5rem;
 }
 
-.content {
+.content, .App {
   margin-top: 60px;
 }
 

@@ -7,16 +7,31 @@ function New() {
     const [redirect, setRedirect] = useState(false);
 
     function handleInputChange(event) {
+        event.persist();
+        const { name, value } = event.target;
 
+        setInputs(inputs => {
+            return {
+                ...inputs, [name]: value
+            };
+        });
     }
 
     function handleSubmit(event) {
+        event.preventDefault();
 
+        Axios.post("/api/blogs", {
+                blog: {
+                    title: inputs.title,
+                    content: inputs.content,
+                    status: inputs.status
+                }
+            })
+            .then(resp => setRedirect(true))
+            .catch(err => console.log(err));
     }
 
-    if (redirect) {
-        return <Redirect to="/blogs" />;
-    }
+    if (redirect) return <Redirect to="/blogs" />;
 
     return (
         <div className="container">
@@ -25,7 +40,7 @@ function New() {
             </header>
 
             <div>
-                <form action="/api/blogs" method="post" onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Title</label>
                         <input className="form-control" name="title" required onChange={handleInputChange} />

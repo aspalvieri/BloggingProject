@@ -45,7 +45,11 @@ app.use(bodyParser.urlencoded({
 //Authentication helper
 const jwt = require("jsonwebtoken");
 const isAuthenticated = (req) => {
-  const token = req.cookies.token || req.body.token || req.query.token || req.headers["x-access-token"];
+  const token = 
+    (req.cookies && req.cookies.token) || 
+    (req.body && req.body.token) || 
+    (req.query && req.query.token) || 
+    (req.headers && req.headers["x-access-token"]);
 
   if (req.session.userId) return true;
   if (!token) return false;
