@@ -3,10 +3,10 @@ import Routes from "./routes";
 import MainNav from "./partials/main_nav";
 
 export default function App() {
-    return (
-        <div className="App">
-            <Routes />
-            <MainNav />
-        </div>
-    );
+  return (
+    <div className="App">
+      <Routes />
+      <MainNav />
+    </div>
+  );
 }

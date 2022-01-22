@@ -25,47 +25,42 @@ body {
   margin-top: 60px;
 }
 
-.container {
-  margin-top: 60px;
-}
-
 .destroy {
   display: inline;
 }
-.destroy > input[type="submit"] {
-  margin: 0;
-  padding: 0;
-  background: none;
-  border: none;
-  color: #007bff;
-}
-.destroy:hover > input[type="submit"] {
-  text-decoration: underline;
-  color: #0056b3;
-}
 
-.flash {
-  margin-top: 60px;
-}
-
-.nav-destroy > input[type="submit"] {
-  height: 40px;
+.destroy>input[type="submit"] {
   margin: 0;
   padding: 0;
   background: none;
   border: 0;
-  color: rgba(0,0,0,0.5);
-  display: block;
-  padding: 0.5red 0.5rem;
+  color: #007bff;
 }
 
-@media (min-width: 992px) {
-  .nav-destroy>input[type="submit"] {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-  }
+.destroy:hover>input[type="submit"] {
+  text-decoration: underline;
+}
 
-  .nav-destroy:hover > input[type="submit"] {
-    color: rgba(0,0,0,0.7);
-  }
+.container,
+.flash {
+  margin-top: 60px;
+}
+
+.nav-destroy>input[type="submit"] {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: rgba(0, 0, 0, .5);
+  display: block;
+  padding: .5rem 0.5rem;
+}
+
+@media (min-width: 992px) .nav-destroy>input[type="submit"] {
+  padding-right: .5rem;
+  padding-left: .5rem;
+}
+
+.nav-destroy:hover>input[type="submit"] {
+  color: rgba(0, 0, 0, .7);
 }

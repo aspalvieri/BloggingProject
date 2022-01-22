@@ -11,7 +11,7 @@ block content
             th Title
             th Status
             th Author
-            th Actions
+            th
         
         tbody
           each blog in blogs
@@ -21,8 +21,9 @@ block content
               td= blog.status
               td= `${blog.author.firstName} ${blog.author.lastName}`
               td
-                a(href=`/blogs/${blog.id}/edit`) Edit
-                = " | "
-                form.destroy(action=`/blogs/destroy`, method="POST", onsubmit=`return confirm("Are you sure you wish to delete '${blog.title}'?");`)
-                  input(type="hidden", name="id", value=blog.id)
-                  input(type="submit", value="Delete")
+                a(href=`/blogs/${blog.id}/edit`) edit
+                = ` | `
+                form.destroy(action=`/blogs/destroy`, method="POST")
+                  input(type="hidden", name="id", value=`${blog.id}`)
+                  input.destroy(type="submit", value="destroy")
+          

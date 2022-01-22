@@ -1,35 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import Axios from "axios";
 
-function New() {
+function Edit(props) {
   const [inputs, setInputs] = useState({});
   const [redirect, setRedirect] = useState(false);
 
-  function handleInputChange(event) {
-    event.persist();
-    const { name, value } = event.target;
-
-    setInputs(inputs => {
-      return {
-        ...inputs,
-        [name]: value
-      };
-    });
-  }
+  useEffect(() => {
+    Axios.get(`/api/blogs/${props.match.params.id}`)
+      .then(result => setInputs(result.data))
+      .catch(err => console.error(err));
+  }, [props]);
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    Axios.post("/api/blogs", {
+    Axios.post("/api/blogs/update", {
+      id: props.match.params.id,
       blog: {
         title: inputs.title,
         content: inputs.content,
         status: inputs.status
       }
     })
-      .then(resp => setRedirect(true))
-      .catch(err => console.log(err));
+      .then(() => setRedirect(true))
+      .catch(err => console.error(err));
+  }
+
+  function handleInputChange(event) {
+    event.persist();
+    const { name, value } = event.target;
+
+    setInputs(inputs => {
+      inputs[name] = value;
+      return inputs;
+    });
   }
 
   if (redirect) return <Redirect to="/blogs" />;
@@ -37,28 +42,28 @@ function New() {
   return (
     <div className="container">
       <header>
-        <h1>New Blog Post</h1>
+        <h1>Edit Blog Post</h1>
       </header>
-
       <div>
-        <form onSubmit={handleSubmit}>
+        <form action="/blogs" method="POST" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Title</label>
             <input
               className="form-control"
               name="title"
-              required
+              required="required"
               onChange={handleInputChange}
+              defaultValue={inputs.title}
             />
           </div>
 
           <div className="form-group">
             <label>Content</label>
-            <input
+            <textarea
               className="form-control"
               name="content"
-              required
               onChange={handleInputChange}
+              value={inputs.content}
             />
           </div>
 
@@ -67,8 +72,9 @@ function New() {
             <select
               className="form-control"
               name="status"
-              required
+              required="required"
               onChange={handleInputChange}
+              defaultValue={inputs.status}
             >
               <option value="DRAFT">draft</option>
               <option value="PUBLISHED">published</option>
@@ -86,4 +92,4 @@ function New() {
   );
 }
 
-export default New;
+export default Edit;

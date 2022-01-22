@@ -1,32 +1,25 @@
 {
-  "name": "comp-2068-thursday",
+  "name": "part-01",
   "version": "1.0.0",
-  "description": "A blogging platform",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app",
+    "debug": "DEBUG=express:* node app.js",
+    "inspect": "node --inspect app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gcsmckinnon/comp-2068-thursday.git"
-  },
-  "author": "Shaun McKinnon",
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gcsmckinnon/comp-2068-thursday/issues"
-  },
-  "homepage": "https://github.com/gcsmckinnon/comp-2068-thursday#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "connect-flash": "^0.1.1",
-    "cookie-parse": "^0.4.0",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.0.0",
-    "express": "^4.17.1",
+    "express": "^4.16.4",
     "express-session": "^1.16.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.11",
     "pug": "^2.0.3"
-  }
+  },
+  "description": ""
 }
